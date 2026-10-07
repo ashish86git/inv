@@ -1,0 +1,4640 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Inventory Master</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+
+            font-family:
+                Inter,
+                ui-sans-serif,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        body {
+            min-height: 100vh;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
+
+        .top-header {
+
+            background: #ffffff;
+
+            border-bottom:
+                1px solid #e5e7eb;
+
+            padding: 18px 28px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+        }
+
+        .header-inner {
+
+            max-width: 1500px;
+
+            margin: 0 auto;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+        }
+
+        .brand-icon {
+
+            width: 44px;
+            height: 44px;
+
+            border-radius: 11px;
+
+            background: #2563eb;
+
+            color: #ffffff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 22px;
+
+            font-weight: 700;
+        }
+
+        .brand-text h1 {
+
+            margin: 0;
+
+            font-size: 21px;
+
+            font-weight: 750;
+
+            color: #111827;
+        }
+
+        .brand-text p {
+
+            margin: 3px 0 0;
+
+            font-size: 12px;
+
+            color: #6b7280;
+        }
+
+        .connection-status {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 8px 12px;
+
+            border-radius: 999px;
+
+            background: #f3f4f6;
+
+            color: #6b7280;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+        .status-dot {
+
+            width: 8px;
+            height: 8px;
+
+            border-radius: 50%;
+
+            background: #9ca3af;
+        }
+
+        .connection-status.online {
+
+            background: #ecfdf3;
+
+            color: #15803d;
+        }
+
+        .connection-status.online .status-dot {
+
+            background: #22c55e;
+        }
+
+        .connection-status.offline {
+
+            background: #fef2f2;
+
+            color: #dc2626;
+        }
+
+        .connection-status.offline .status-dot {
+
+            background: #ef4444;
+        }
+
+
+        /* =========================================================
+           MAIN
+        ========================================================= */
+
+        .page {
+
+            max-width: 1500px;
+
+            margin: 0 auto;
+
+            padding: 24px 28px 40px;
+        }
+
+
+        /* =========================================================
+           SUMMARY
+        ========================================================= */
+
+        .summary-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 16px;
+
+            margin-bottom: 20px;
+        }
+
+        .summary-card {
+
+            background: #ffffff;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 13px;
+
+            padding: 18px;
+
+            box-shadow:
+                0 1px 2px rgba(0, 0, 0, 0.03);
+        }
+
+        .summary-label {
+
+            font-size: 12px;
+
+            color: #6b7280;
+
+            font-weight: 600;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.04em;
+        }
+
+        .summary-value {
+
+            margin-top: 7px;
+
+            font-size: 28px;
+
+            font-weight: 750;
+
+            color: #111827;
+        }
+
+        .summary-sub {
+
+            margin-top: 3px;
+
+            font-size: 12px;
+
+            color: #9ca3af;
+        }
+
+
+        /* =========================================================
+           UPLOAD
+        ========================================================= */
+
+        .upload-card {
+
+            background: #ffffff;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 13px;
+
+            padding: 20px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 1px 2px rgba(0, 0, 0, 0.03);
+        }
+
+        .upload-row {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 18px;
+        }
+
+        .upload-info h3 {
+
+            margin: 0 0 5px;
+
+            font-size: 16px;
+
+            color: #111827;
+        }
+
+        .upload-info p {
+
+            margin: 0;
+
+            color: #6b7280;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+        .upload-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            flex-shrink: 0;
+        }
+
+
+        /* =========================================================
+           BUTTONS
+        ========================================================= */
+
+        .btn {
+
+            border:
+                1px solid transparent;
+
+            border-radius: 8px;
+
+            padding: 10px 15px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            font-size: 13px;
+
+            font-weight: 650;
+
+            transition:
+                background 0.15s ease,
+                border-color 0.15s ease,
+                transform 0.1s ease;
+        }
+
+        .btn:active {
+
+            transform: translateY(1px);
+        }
+
+        .btn:disabled {
+
+            opacity: 0.55;
+
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+
+            background: #2563eb;
+
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+
+            background: #1d4ed8;
+        }
+
+        .btn-secondary {
+
+            background: #ffffff;
+
+            color: #374151;
+
+            border-color: #d1d5db;
+        }
+
+        .btn-secondary:hover {
+
+            background: #f9fafb;
+        }
+
+        .btn-success {
+
+            background: #15803d;
+
+            color: #ffffff;
+        }
+
+        .btn-success:hover {
+
+            background: #166534;
+        }
+
+        .btn-danger {
+
+            background: #dc2626;
+
+            color: #ffffff;
+        }
+
+        .btn-danger:hover {
+
+            background: #b91c1c;
+        }
+
+        .btn-warning {
+
+            background: #d97706;
+
+            color: #ffffff;
+        }
+
+        .btn-warning:hover {
+
+            background: #b45309;
+        }
+
+        .btn-small {
+
+            padding: 7px 10px;
+
+            font-size: 12px;
+        }
+
+
+        /* =========================================================
+           TABLE CARD
+        ========================================================= */
+
+        .table-card {
+
+            background: #ffffff;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 13px;
+
+            box-shadow:
+                0 1px 2px rgba(0, 0, 0, 0.03);
+
+            overflow: hidden;
+        }
+
+        .section-header {
+
+            padding: 18px 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+
+            border-bottom:
+                1px solid #e5e7eb;
+        }
+
+        .section-title h2 {
+
+            margin: 0;
+
+            font-size: 17px;
+
+            font-weight: 750;
+
+            color: #111827;
+        }
+
+        .section-title p {
+
+            margin: 4px 0 0;
+
+            font-size: 12px;
+
+            color: #6b7280;
+        }
+
+        .section-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            flex-wrap: wrap;
+        }
+
+
+        /* =========================================================
+           SEARCH
+        ========================================================= */
+
+        .search-bar {
+
+            padding: 15px 20px;
+
+            border-bottom:
+                1px solid #e5e7eb;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+        }
+
+        .search-wrapper {
+
+            position: relative;
+
+            flex: 1;
+
+            min-width: 240px;
+        }
+
+        .search-icon {
+
+            position: absolute;
+
+            left: 12px;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            color: #9ca3af;
+
+            font-size: 15px;
+
+            pointer-events: none;
+        }
+
+        .search-input {
+
+            width: 100%;
+
+            height: 40px;
+
+            border:
+                1px solid #d1d5db;
+
+            border-radius: 8px;
+
+            padding:
+                0 13px 0 36px;
+
+            outline: none;
+
+            color: #111827;
+
+            background: #ffffff;
+        }
+
+        .search-input:focus {
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px rgba(37, 99, 235, 0.10);
+        }
+
+
+        /* =========================================================
+           TABLE
+        ========================================================= */
+
+        .table-wrapper {
+
+            width: 100%;
+
+            overflow-x: auto;
+        }
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 1150px;
+        }
+
+        thead th {
+
+            background: #f9fafb;
+
+            color: #6b7280;
+
+            font-size: 11px;
+
+            font-weight: 750;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.04em;
+
+            padding: 12px 13px;
+
+            text-align: left;
+
+            border-bottom:
+                1px solid #e5e7eb;
+
+            white-space: nowrap;
+        }
+
+        tbody td {
+
+            padding: 12px 13px;
+
+            border-bottom:
+                1px solid #f0f1f3;
+
+            font-size: 13px;
+
+            color: #374151;
+
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+
+            background: #f9fbff;
+        }
+
+        tbody tr.selected {
+
+            background: #eff6ff;
+        }
+
+        .checkbox-cell {
+
+            width: 42px;
+
+            text-align: center;
+        }
+
+        input[type="checkbox"] {
+
+            width: 16px;
+
+            height: 16px;
+
+            accent-color: #2563eb;
+
+            cursor: pointer;
+        }
+
+        .serial-number {
+
+            font-weight: 700;
+
+            color: #111827;
+
+            white-space: nowrap;
+        }
+
+        .item-number {
+
+            font-weight: 600;
+
+            color: #2563eb;
+
+            white-space: nowrap;
+        }
+
+        .description-cell {
+
+            max-width: 330px;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+        }
+
+        .location-badge,
+        .um-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            padding: 5px 8px;
+
+            border-radius: 6px;
+
+            background: #f3f4f6;
+
+            color: #374151;
+
+            font-size: 11px;
+
+            font-weight: 650;
+        }
+
+        .date-cell {
+
+            white-space: nowrap;
+
+            font-size: 12px;
+
+            color: #6b7280;
+        }
+
+        .action-buttons {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            white-space: nowrap;
+        }
+
+        .icon-btn {
+
+            width: 32px;
+
+            height: 32px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 7px;
+
+            border:
+                1px solid #e5e7eb;
+
+            background: #ffffff;
+
+            color: #4b5563;
+        }
+
+        .icon-btn:hover {
+
+            background: #f9fafb;
+        }
+
+        .icon-btn.print:hover {
+
+            color: #2563eb;
+
+            border-color: #bfdbfe;
+
+            background: #eff6ff;
+        }
+
+        .icon-btn.delete:hover {
+
+            color: #dc2626;
+
+            border-color: #fecaca;
+
+            background: #fef2f2;
+        }
+
+
+        /* =========================================================
+           EMPTY
+        ========================================================= */
+
+        .empty-state {
+
+            padding: 55px 20px;
+
+            text-align: center;
+
+            display: none;
+        }
+
+        .empty-icon {
+
+            width: 52px;
+
+            height: 52px;
+
+            margin: 0 auto 13px;
+
+            border-radius: 50%;
+
+            background: #f3f4f6;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 23px;
+        }
+
+        .empty-state h3 {
+
+            margin: 0;
+
+            font-size: 16px;
+
+            color: #374151;
+        }
+
+        .empty-state p {
+
+            margin: 6px 0 0;
+
+            font-size: 13px;
+
+            color: #9ca3af;
+        }
+
+
+        /* =========================================================
+           PAGINATION
+        ========================================================= */
+
+        .pagination {
+
+            padding: 14px 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            flex-wrap: wrap;
+
+            border-top:
+                1px solid #e5e7eb;
+        }
+
+        .pagination-info {
+
+            color: #6b7280;
+
+            font-size: 12px;
+        }
+
+        .pagination-controls {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+        .page-size {
+
+            height: 34px;
+
+            border:
+                1px solid #d1d5db;
+
+            border-radius: 7px;
+
+            padding: 0 9px;
+
+            background: #ffffff;
+
+            color: #374151;
+        }
+
+        .page-number {
+
+            min-width: 34px;
+
+            height: 34px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 7px;
+
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+
+        /* =========================================================
+           MODAL
+        ========================================================= */
+
+        .modal-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(15, 23, 42, 0.48);
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            z-index: 1000;
+        }
+
+        .modal-overlay.show {
+
+            display: flex;
+        }
+
+        .modal {
+
+            width: min(650px, 100%);
+
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            background: #ffffff;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, 0.20);
+        }
+
+        .modal-header {
+
+            padding: 18px 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            border-bottom:
+                1px solid #e5e7eb;
+        }
+
+        .modal-header h3 {
+
+            margin: 0;
+
+            font-size: 17px;
+        }
+
+        .modal-close {
+
+            width: 34px;
+
+            height: 34px;
+
+            border: none;
+
+            border-radius: 7px;
+
+            background: #f3f4f6;
+
+            color: #4b5563;
+
+            font-size: 18px;
+        }
+
+        .modal-body {
+
+            padding: 20px;
+        }
+
+        .detail-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 14px;
+        }
+
+        .detail-item {
+
+            padding: 12px;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 9px;
+
+            background: #fafafa;
+        }
+
+        .detail-label {
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.05em;
+
+            color: #9ca3af;
+
+            font-weight: 750;
+        }
+
+        .detail-value {
+
+            margin-top: 5px;
+
+            color: #111827;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            word-break: break-word;
+        }
+
+
+        /* =========================================================
+           UPLOAD RESULT
+        ========================================================= */
+
+        .result-box {
+
+            margin-top: 15px;
+
+            padding: 14px;
+
+            border-radius: 9px;
+
+            background: #f8fafc;
+
+            display: none;
+        }
+
+        .result-box.show {
+
+            display: block;
+        }
+
+        .result-title {
+
+            font-size: 13px;
+
+            font-weight: 750;
+
+            color: #111827;
+
+            margin-bottom: 10px;
+        }
+
+        .result-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 10px;
+        }
+
+        .result-item {
+
+            padding: 10px;
+
+            border-radius: 7px;
+
+            background: #ffffff;
+
+            border:
+                1px solid #e5e7eb;
+        }
+
+        .result-item span {
+
+            display: block;
+
+            font-size: 10px;
+
+            color: #9ca3af;
+
+            text-transform: uppercase;
+        }
+
+        .result-item strong {
+
+            display: block;
+
+            margin-top: 3px;
+
+            font-size: 18px;
+
+            color: #111827;
+        }
+
+
+        /* =========================================================
+           TOAST
+        ========================================================= */
+
+        .toast-container {
+
+            position: fixed;
+
+            right: 22px;
+
+            bottom: 22px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+
+            z-index: 2000;
+        }
+
+        .toast {
+
+            min-width: 290px;
+
+            max-width: 400px;
+
+            padding: 13px 15px;
+
+            border-radius: 9px;
+
+            background: #111827;
+
+            color: #ffffff;
+
+            font-size: 13px;
+
+            line-height: 1.4;
+
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, 0.16);
+
+            animation:
+                toastIn 0.2s ease;
+        }
+
+        .toast.success {
+
+            background: #15803d;
+        }
+
+        .toast.error {
+
+            background: #dc2626;
+        }
+
+        .toast.warning {
+
+            background: #d97706;
+        }
+
+        @keyframes toastIn {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(8px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        /* =========================================================
+           LOADING
+        ========================================================= */
+
+        .loading-overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(255, 255, 255, 0.72);
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            z-index: 1500;
+        }
+
+        .loading-overlay.show {
+
+            display: flex;
+        }
+
+        .loading-box {
+
+            background: #ffffff;
+
+            border:
+                1px solid #e5e7eb;
+
+            border-radius: 12px;
+
+            padding: 20px 25px;
+
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, 0.12);
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            color: #374151;
+
+            font-size: 13px;
+
+            font-weight: 650;
+        }
+
+        .spinner {
+
+            width: 20px;
+
+            height: 20px;
+
+            border:
+                3px solid #dbeafe;
+
+            border-top-color:
+                #2563eb;
+
+            border-radius: 50%;
+
+            animation:
+                spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+
+            to {
+
+                transform:
+                    rotate(360deg);
+            }
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 1100px) {
+
+            .summary-grid {
+
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .upload-row {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .top-header {
+
+                padding: 15px;
+            }
+
+            .header-inner {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .page {
+
+                padding: 15px;
+            }
+
+            .summary-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .section-actions {
+
+                width: 100%;
+            }
+
+            .section-actions .btn {
+
+                flex: 1;
+            }
+
+            .search-bar {
+
+                align-items: stretch;
+
+                flex-direction: column;
+            }
+
+            .search-wrapper {
+
+                width: 100%;
+            }
+
+            .detail-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .result-grid {
+
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .pagination {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =============================================================
+     HEADER
+============================================================= -->
+
+<header class="top-header">
+
+    <div class="header-inner">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                📦
+            </div>
+
+            <div class="brand-text">
+
+                <h1>
+                    Inventory Master
+                </h1>
+
+                <p>
+                    Inventory Master Data Management
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="connectionStatus"
+            class="connection-status"
+        >
+
+            <span class="status-dot"></span>
+
+            <span id="connectionText">
+                Checking connection...
+            </span>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =============================================================
+     MAIN
+============================================================= -->
+
+<main class="page">
+
+
+    <!-- =========================================================
+         SUMMARY
+    ========================================================== -->
+
+    <section class="summary-grid">
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                Total Records
+            </div>
+
+            <div
+                class="summary-value"
+                id="totalRecords"
+            >
+                0
+            </div>
+
+            <div class="summary-sub">
+                Records in database
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                Visible Records
+            </div>
+
+            <div
+                class="summary-value"
+                id="visibleRecords"
+            >
+                0
+            </div>
+
+            <div class="summary-sub">
+                Current search result
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                Selected
+            </div>
+
+            <div
+                class="summary-value"
+                id="selectedRecords"
+            >
+                0
+            </div>
+
+            <div class="summary-sub">
+                Records selected
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                Current Page
+            </div>
+
+            <div
+                class="summary-value"
+                id="currentPageDisplay"
+            >
+                1
+            </div>
+
+            <div
+                class="summary-sub"
+                id="pageSummary"
+            >
+                Page 1
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         MASTER EXCEL UPLOAD
+    ========================================================== -->
+
+    <section class="upload-card">
+
+        <div class="upload-row">
+
+
+            <div class="upload-info">
+
+                <h3>
+                    Master Excel Upload
+                </h3>
+
+                <p>
+                    Excel columns must be exactly:
+                    Serial Number, Item Number, Description,
+                    Location and UM. Existing Serial Numbers
+                    will be updated and new Serial Numbers
+                    will be inserted.
+                </p>
+
+
+                <div
+                    id="uploadResult"
+                    class="result-box"
+                >
+
+                    <div class="result-title">
+                        Last Upload Result
+                    </div>
+
+                    <div class="result-grid">
+
+
+                        <div class="result-item">
+
+                            <span>
+                                Total
+                            </span>
+
+                            <strong
+                                id="uploadTotal"
+                            >
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="result-item">
+
+                            <span>
+                                Processed
+                            </span>
+
+                            <strong
+                                id="uploadProcessed"
+                            >
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="result-item">
+
+                            <span>
+                                Inserted
+                            </span>
+
+                            <strong
+                                id="uploadInserted"
+                            >
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="result-item">
+
+                            <span>
+                                Updated
+                            </span>
+
+                            <strong
+                                id="uploadUpdated"
+                            >
+                                0
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="upload-actions">
+
+
+                <input
+                    type="file"
+                    id="excelFile"
+                    accept=".xlsx,.xls"
+                    hidden
+                >
+
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="uploadBtn"
+                    onclick="selectExcelFile()"
+                >
+                    📤 Upload Excel
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    onclick="refreshData()"
+                >
+                    ↻ Refresh
+                </button>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================================================
+         TABLE
+    ========================================================== -->
+
+    <section class="table-card">
+
+
+        <!-- SECTION HEADER -->
+
+        <div class="section-header">
+
+
+            <div class="section-title">
+
+                <h2>
+                    Inventory Master Data
+                </h2>
+
+                <p>
+                    Manage and print inventory master records
+                </p>
+
+            </div>
+
+
+            <div class="section-actions">
+
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="printAllBtn"
+                    onclick="printAllRecords()"
+                >
+                    🖨️ Print All
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    id="deleteAllBtn"
+                    onclick="deleteAllRecords()"
+                >
+                    🗑️ Delete All
+                </button>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SEARCH -->
+
+        <div class="search-bar">
+
+
+            <div class="search-wrapper">
+
+                <span class="search-icon">
+                    🔍
+                </span>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="search-input"
+                    placeholder="Search by Serial Number, Item Number, Description, Location or UM..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <button
+                type="button"
+                class="btn btn-primary"
+                onclick="performSearch()"
+            >
+                Search
+            </button>
+
+
+            <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="clearSearch()"
+            >
+                Clear
+            </button>
+
+
+            <button
+                type="button"
+                class="btn btn-success"
+                id="printSelectedBtn"
+                onclick="printSelectedRecords()"
+            >
+                🖨️ Print Selected
+            </button>
+
+
+        </div>
+
+
+
+        <!-- TABLE -->
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+
+                        <th class="checkbox-cell">
+
+                            <input
+                                type="checkbox"
+                                id="selectAllCheckbox"
+                                onchange="toggleSelectAll(this)"
+                            >
+
+                        </th>
+
+
+                        <th>
+                            Serial Number
+                        </th>
+
+
+                        <th>
+                            Item Number
+                        </th>
+
+
+                        <th>
+                            Description
+                        </th>
+
+
+                        <th>
+                            Location
+                        </th>
+
+
+                        <th>
+                            UM
+                        </th>
+
+
+                        <th>
+                            Created At
+                        </th>
+
+
+                        <th>
+                            Updated At
+                        </th>
+
+
+                        <th>
+                            Actions
+                        </th>
+
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody
+                    id="tableBody"
+                >
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+
+        <!-- EMPTY STATE -->
+
+        <div
+            id="emptyState"
+            class="empty-state"
+        >
+
+            <div class="empty-icon">
+                📦
+            </div>
+
+            <h3>
+                No inventory records found
+            </h3>
+
+            <p>
+                Try another search or upload an Excel file.
+            </p>
+
+        </div>
+
+
+
+        <!-- PAGINATION -->
+
+        <div class="pagination">
+
+
+            <div
+                class="pagination-info"
+                id="paginationInfo"
+            >
+                Showing 0 of 0 records
+            </div>
+
+
+            <div class="pagination-controls">
+
+
+                <select
+                    id="pageSize"
+                    class="page-size"
+                    onchange="changePageSize()"
+                >
+
+                    <option value="10">
+                        10 / page
+                    </option>
+
+                    <option
+                        value="25"
+                        selected
+                    >
+                        25 / page
+                    </option>
+
+                    <option value="50">
+                        50 / page
+                    </option>
+
+                    <option value="100">
+                        100 / page
+                    </option>
+
+                </select>
+
+
+                <button
+                    type="button"
+                    class="btn btn-secondary btn-small"
+                    id="prevBtn"
+                    onclick="previousPage()"
+                >
+                    ← Previous
+                </button>
+
+
+                <div
+                    class="page-number"
+                    id="pageNumber"
+                >
+                    1
+                </div>
+
+
+                <button
+                    type="button"
+                    class="btn btn-secondary btn-small"
+                    id="nextBtn"
+                    onclick="nextPage()"
+                >
+                    Next →
+                </button>
+
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+</main>
+
+
+
+<!-- =============================================================
+     DETAILS MODAL
+============================================================= -->
+
+<div
+    class="modal-overlay"
+    id="detailsModal"
+>
+
+    <div class="modal">
+
+
+        <div class="modal-header">
+
+            <h3>
+                Inventory Record Details
+            </h3>
+
+            <button
+                type="button"
+                class="modal-close"
+                onclick="closeDetailsModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div
+            class="modal-body"
+            id="detailsBody"
+        >
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =============================================================
+     LOADING
+============================================================= -->
+
+<div
+    class="loading-overlay"
+    id="loadingOverlay"
+>
+
+    <div class="loading-box">
+
+        <div class="spinner"></div>
+
+        <span id="loadingText">
+            Please wait...
+        </span>
+
+    </div>
+
+</div>
+
+
+
+<!-- =============================================================
+     TOAST
+============================================================= -->
+
+<div
+    class="toast-container"
+    id="toastContainer"
+></div>
+
+
+
+<script>
+
+
+    /* =========================================================
+       GLOBAL STATE
+    ========================================================= */
+
+    let allRecords = [];
+
+    let filteredRecords = [];
+
+    let selectedIds = new Set();
+
+    let currentPage = 1;
+
+    let pageSize = 25;
+
+    let currentSearch = "";
+
+
+    /* =========================================================
+       INITIAL LOAD
+    ========================================================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        () => {
+
+            loadMasterData();
+
+            checkHealth();
+
+
+            const searchInput =
+                document.getElementById(
+                    "searchInput"
+                );
+
+
+            searchInput.addEventListener(
+                "keydown",
+                (event) => {
+
+                    if (event.key === "Enter") {
+
+                        performSearch();
+
+                    }
+
+                }
+            );
+
+
+            document
+                .getElementById("excelFile")
+                .addEventListener(
+                    "change",
+                    handleExcelUpload
+                );
+
+
+        }
+    );
+
+
+    /* =========================================================
+       HEALTH
+    ========================================================= */
+
+    async function checkHealth() {
+
+        const status =
+            document.getElementById(
+                "connectionStatus"
+            );
+
+
+        const text =
+            document.getElementById(
+                "connectionText"
+            );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/health"
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (
+                response.ok &&
+                data
+            ) {
+
+                status.classList.remove(
+                    "offline"
+                );
+
+                status.classList.add(
+                    "online"
+                );
+
+                text.textContent =
+                    "Database Connected";
+
+            } else {
+
+                throw new Error(
+                    "Health check failed"
+                );
+
+            }
+
+
+        } catch (error) {
+
+            status.classList.remove(
+                "online"
+            );
+
+            status.classList.add(
+                "offline"
+            );
+
+            text.textContent =
+                "Database Disconnected";
+
+        }
+
+    }
+
+
+    /* =========================================================
+       LOAD MASTER DATA
+    ========================================================= */
+
+    async function loadMasterData(
+        search = currentSearch
+    ) {
+
+        showLoading(
+            true,
+            "Loading inventory data..."
+        );
+
+
+        try {
+
+            const query =
+                search
+                    ? `?search=${encodeURIComponent(search)}`
+                    : "";
+
+
+            const response =
+                await fetch(
+                    `/api/master${query}`
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.error ||
+                    "Unable to load inventory data."
+                );
+
+            }
+
+
+            allRecords =
+                Array.isArray(data)
+                    ? data
+                    : (
+                        data.data ||
+                        []
+                    );
+
+
+            filteredRecords =
+                [...allRecords];
+
+
+            currentPage = 1;
+
+            selectedIds.clear();
+
+
+            updateSummary();
+
+            renderTable();
+
+            updateSelectAllCheckbox();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            allRecords = [];
+
+            filteredRecords = [];
+
+
+            renderTable();
+
+
+            showToast(
+                error.message ||
+                "Unable to load inventory data.",
+                "error"
+            );
+
+
+        } finally {
+
+            showLoading(false);
+
+        }
+
+    }
+
+
+    /* =========================================================
+       SEARCH
+    ========================================================= */
+
+    async function performSearch() {
+
+        const input =
+            document.getElementById(
+                "searchInput"
+            );
+
+
+        currentSearch =
+            input.value.trim();
+
+
+        await loadMasterData(
+            currentSearch
+        );
+
+    }
+
+
+    function clearSearch() {
+
+        document.getElementById(
+            "searchInput"
+        ).value = "";
+
+
+        currentSearch = "";
+
+
+        loadMasterData("");
+
+    }
+
+
+    /* =========================================================
+       REFRESH
+    ========================================================= */
+
+    async function refreshData() {
+
+        await checkHealth();
+
+        await loadMasterData(
+            currentSearch
+        );
+
+
+        showToast(
+            "Inventory data refreshed successfully.",
+            "success"
+        );
+
+    }
+
+
+    /* =========================================================
+       RENDER TABLE
+    ========================================================= */
+
+    function renderTable() {
+
+        const tbody =
+            document.getElementById(
+                "tableBody"
+            );
+
+
+        const emptyState =
+            document.getElementById(
+                "emptyState"
+            );
+
+
+        tbody.innerHTML = "";
+
+
+        const totalPages =
+            Math.max(
+                1,
+                Math.ceil(
+                    filteredRecords.length /
+                    pageSize
+                )
+            );
+
+
+        if (
+            currentPage >
+            totalPages
+        ) {
+
+            currentPage =
+                totalPages;
+
+        }
+
+
+        const start =
+            (
+                currentPage - 1
+            ) *
+            pageSize;
+
+
+        const end =
+            start +
+            pageSize;
+
+
+        const pageRecords =
+            filteredRecords.slice(
+                start,
+                end
+            );
+
+
+        if (
+            !pageRecords.length
+        ) {
+
+            emptyState.style.display =
+                "block";
+
+        } else {
+
+            emptyState.style.display =
+                "none";
+
+
+            pageRecords.forEach(
+                record => {
+
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+                    if (
+                        selectedIds.has(
+                            record.id
+                        )
+                    ) {
+
+                        row.classList.add(
+                            "selected"
+                        );
+
+                    }
+
+
+                    row.innerHTML = `
+
+                        <td class="checkbox-cell">
+
+                            <input
+                                type="checkbox"
+                                class="row-checkbox"
+                                data-id="${record.id}"
+                                ${
+                                    selectedIds.has(
+                                        record.id
+                                    )
+                                    ? "checked"
+                                    : ""
+                                }
+                                onchange="
+                                    toggleRecordSelection(
+                                        ${record.id},
+                                        this.checked
+                                    )
+                                "
+                            >
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="serial-number">
+
+                                ${escapeHtml(
+                                    record.serial_number
+                                )}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="item-number">
+
+                                ${escapeHtml(
+                                    record.item_number
+                                )}
+
+                            </span>
+
+                        </td>
+
+
+                        <td
+                            class="description-cell"
+                            title="${escapeHtml(
+                                record.description || ""
+                            )}"
+                        >
+
+                            ${escapeHtml(
+                                record.description || "-"
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="location-badge">
+
+                                ${escapeHtml(
+                                    record.location || "-"
+                                )}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="um-badge">
+
+                                ${escapeHtml(
+                                    record.um || "-"
+                                )}
+
+                            </span>
+
+                        </td>
+
+
+                        <td class="date-cell">
+
+                            ${escapeHtml(
+                                record.created_at || "-"
+                            )}
+
+                        </td>
+
+
+                        <td class="date-cell">
+
+                            ${escapeHtml(
+                                record.updated_at || "-"
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="action-buttons">
+
+
+                                <button
+                                    type="button"
+                                    class="icon-btn"
+                                    title="View"
+                                    onclick="
+                                        viewRecord(
+                                            ${record.id}
+                                        )
+                                    "
+                                >
+                                    👁️
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="icon-btn print"
+                                    title="Print Slip"
+                                    onclick="
+                                        printSlip(
+                                            ${record.id}
+                                        )
+                                    "
+                                >
+                                    🖨️
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="icon-btn delete"
+                                    title="Delete"
+                                    onclick="
+                                        deleteRecord(
+                                            ${record.id}
+                                        )
+                                    "
+                                >
+                                    🗑️
+                                </button>
+
+
+                            </div>
+
+                        </td>
+
+                    `;
+
+
+                    tbody.appendChild(
+                        row
+                    );
+
+                }
+            );
+
+        }
+
+
+        updatePagination();
+
+    }
+
+
+    /* =========================================================
+       SUMMARY
+    ========================================================= */
+
+    function updateSummary() {
+
+        document.getElementById(
+            "totalRecords"
+        ).textContent =
+            allRecords.length;
+
+
+        document.getElementById(
+            "visibleRecords"
+        ).textContent =
+            filteredRecords.length;
+
+
+        document.getElementById(
+            "selectedRecords"
+        ).textContent =
+            selectedIds.size;
+
+
+        document.getElementById(
+            "currentPageDisplay"
+        ).textContent =
+            currentPage;
+
+
+        document.getElementById(
+            "pageSummary"
+        ).textContent =
+            `Page ${currentPage} of ${
+                Math.max(
+                    1,
+                    Math.ceil(
+                        filteredRecords.length /
+                        pageSize
+                    )
+                )
+            }`;
+
+    }
+
+
+    /* =========================================================
+       PAGINATION
+    ========================================================= */
+
+    function updatePagination() {
+
+        const total =
+            filteredRecords.length;
+
+
+        const totalPages =
+            Math.max(
+                1,
+                Math.ceil(
+                    total /
+                    pageSize
+                )
+            );
+
+
+        const start =
+            total === 0
+                ? 0
+                : (
+                    (
+                        currentPage - 1
+                    ) *
+                    pageSize
+                ) + 1;
+
+
+        const end =
+            Math.min(
+                currentPage *
+                pageSize,
+                total
+            );
+
+
+        document.getElementById(
+            "paginationInfo"
+        ).textContent =
+            `Showing ${start}-${end} of ${total} records`;
+
+
+        document.getElementById(
+            "pageNumber"
+        ).textContent =
+            currentPage;
+
+
+        document.getElementById(
+            "prevBtn"
+        ).disabled =
+            currentPage <= 1;
+
+
+        document.getElementById(
+            "nextBtn"
+        ).disabled =
+            currentPage >= totalPages;
+
+
+        updateSummary();
+
+    }
+
+
+    function previousPage() {
+
+        if (
+            currentPage > 1
+        ) {
+
+            currentPage--;
+
+            renderTable();
+
+        }
+
+    }
+
+
+    function nextPage() {
+
+        const totalPages =
+            Math.max(
+                1,
+                Math.ceil(
+                    filteredRecords.length /
+                    pageSize
+                )
+            );
+
+
+        if (
+            currentPage <
+            totalPages
+        ) {
+
+            currentPage++;
+
+            renderTable();
+
+        }
+
+    }
+
+
+    function changePageSize() {
+
+        pageSize =
+            parseInt(
+                document.getElementById(
+                    "pageSize"
+                ).value,
+                10
+            );
+
+
+        currentPage = 1;
+
+        renderTable();
+
+    }
+
+
+    /* =========================================================
+       SELECTION
+    ========================================================= */
+
+    function toggleRecordSelection(
+        id,
+        checked
+    ) {
+
+        if (checked) {
+
+            selectedIds.add(
+                id
+            );
+
+        } else {
+
+            selectedIds.delete(
+                id
+            );
+
+        }
+
+
+        updateSelectedRows();
+
+        updateSelectAllCheckbox();
+
+        updateSummary();
+
+    }
+
+
+    function toggleSelectAll(
+        checkbox
+    ) {
+
+        const start =
+            (
+                currentPage - 1
+            ) *
+            pageSize;
+
+
+        const end =
+            start +
+            pageSize;
+
+
+        const pageRecords =
+            filteredRecords.slice(
+                start,
+                end
+            );
+
+
+        pageRecords.forEach(
+            record => {
+
+                if (
+                    checkbox.checked
+                ) {
+
+                    selectedIds.add(
+                        record.id
+                    );
+
+                } else {
+
+                    selectedIds.delete(
+                        record.id
+                    );
+
+                }
+
+            }
+        );
+
+
+        updateSelectedRows();
+
+        updateSelectAllCheckbox();
+
+        updateSummary();
+
+    }
+
+
+    function updateSelectedRows() {
+
+        document
+            .querySelectorAll(
+                ".row-checkbox"
+            )
+            .forEach(
+                checkbox => {
+
+                    const id =
+                        Number(
+                            checkbox.dataset.id
+                        );
+
+
+                    checkbox.checked =
+                        selectedIds.has(
+                            id
+                        );
+
+
+                    const row =
+                        checkbox.closest(
+                            "tr"
+                        );
+
+
+                    if (
+                        selectedIds.has(
+                            id
+                        )
+                    ) {
+
+                        row.classList.add(
+                            "selected"
+                        );
+
+                    } else {
+
+                        row.classList.remove(
+                            "selected"
+                        );
+
+                    }
+
+                }
+            );
+
+    }
+
+
+    function updateSelectAllCheckbox() {
+
+        const checkbox =
+            document.getElementById(
+                "selectAllCheckbox"
+            );
+
+
+        const start =
+            (
+                currentPage - 1
+            ) *
+            pageSize;
+
+
+        const end =
+            start +
+            pageSize;
+
+
+        const pageRecords =
+            filteredRecords.slice(
+                start,
+                end
+            );
+
+
+        if (
+            !pageRecords.length
+        ) {
+
+            checkbox.checked =
+                false;
+
+            checkbox.indeterminate =
+                false;
+
+            return;
+
+        }
+
+
+        const selectedOnPage =
+            pageRecords.filter(
+                record =>
+                    selectedIds.has(
+                        record.id
+                    )
+            ).length;
+
+
+        checkbox.checked =
+            selectedOnPage ===
+            pageRecords.length;
+
+
+        checkbox.indeterminate =
+            selectedOnPage > 0 &&
+            selectedOnPage <
+            pageRecords.length;
+
+    }
+
+
+    /* =========================================================
+       VIEW RECORD
+    ========================================================= */
+
+    async function viewRecord(
+        id
+    ) {
+
+        showLoading(
+            true,
+            "Loading record..."
+        );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `/api/master/${id}`
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.error ||
+                    "Unable to load record."
+                );
+
+            }
+
+
+            const record =
+                data.data ||
+                data;
+
+
+            const body =
+                document.getElementById(
+                    "detailsBody"
+                );
+
+
+            body.innerHTML = `
+
+                <div class="detail-grid">
+
+                    ${detailItem(
+                        "Serial Number",
+                        record.serial_number
+                    )}
+
+                    ${detailItem(
+                        "Item Number",
+                        record.item_number
+                    )}
+
+                    ${detailItem(
+                        "Description",
+                        record.description
+                    )}
+
+                    ${detailItem(
+                        "Location",
+                        record.location
+                    )}
+
+                    ${detailItem(
+                        "UM",
+                        record.um
+                    )}
+
+                    ${detailItem(
+                        "Created At",
+                        record.created_at
+                    )}
+
+                    ${detailItem(
+                        "Updated At",
+                        record.updated_at
+                    )}
+
+                </div>
+
+            `;
+
+
+            document
+                .getElementById(
+                    "detailsModal"
+                )
+                .classList.add(
+                    "show"
+                );
+
+
+        } catch (error) {
+
+            showToast(
+                error.message ||
+                "Unable to load record.",
+                "error"
+            );
+
+        } finally {
+
+            showLoading(false);
+
+        }
+
+    }
+
+
+    function detailItem(
+        label,
+        value
+    ) {
+
+        return `
+
+            <div class="detail-item">
+
+                <div class="detail-label">
+
+                    ${escapeHtml(
+                        label
+                    )}
+
+                </div>
+
+                <div class="detail-value">
+
+                    ${escapeHtml(
+                        value === null ||
+                        value === undefined ||
+                        value === ""
+                            ? "-"
+                            : value
+                    )}
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    function closeDetailsModal() {
+
+        document
+            .getElementById(
+                "detailsModal"
+            )
+            .classList.remove(
+                "show"
+            );
+
+    }
+
+
+    /* =========================================================
+       DELETE SINGLE
+    ========================================================= */
+
+    async function deleteRecord(
+        id
+    ) {
+
+        const record =
+            allRecords.find(
+                item =>
+                    Number(item.id) ===
+                    Number(id)
+            );
+
+
+        const serial =
+            record
+                ? record.serial_number
+                : id;
+
+
+        const confirmed =
+            confirm(
+                `Are you sure you want to delete inventory record "${serial}"?`
+            );
+
+
+        if (!confirmed) {
+
+            return;
+
+        }
+
+
+        showLoading(
+            true,
+            "Deleting record..."
+        );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `/api/master/${id}`,
+                    {
+                        method:
+                            "DELETE"
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.error ||
+                    "Unable to delete record."
+                );
+
+            }
+
+
+            selectedIds.delete(
+                Number(id)
+            );
+
+
+            await loadMasterData(
+                currentSearch
+            );
+
+
+            showToast(
+                "Inventory record deleted successfully.",
+                "success"
+            );
+
+
+        } catch (error) {
+
+            showToast(
+                error.message ||
+                "Delete failed.",
+                "error"
+            );
+
+        } finally {
+
+            showLoading(false);
+
+        }
+
+    }
+
+
+    /* =========================================================
+       DELETE ALL
+    ========================================================= */
+
+    async function deleteAllRecords() {
+
+        if (
+            !allRecords.length
+        ) {
+
+            showToast(
+                "There are no inventory records to delete.",
+                "warning"
+            );
+
+            return;
+
+        }
+
+
+        const firstConfirm =
+            confirm(
+                `Are you sure you want to delete ALL ${allRecords.length} inventory records?`
+            );
+
+
+        if (!firstConfirm) {
+
+            return;
+
+        }
+
+
+        const secondConfirm =
+            confirm(
+                "This action cannot be undone. Do you really want to delete ALL inventory master data?"
+            );
+
+
+        if (!secondConfirm) {
+
+            return;
+
+        }
+
+
+        showLoading(
+            true,
+            "Deleting all inventory records..."
+        );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/master?confirm=yes",
+                    {
+                        method:
+                            "DELETE"
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.error ||
+                    "Unable to delete all records."
+                );
+
+            }
+
+
+            selectedIds.clear();
+
+
+            await loadMasterData(
+                ""
+            );
+
+
+            document.getElementById(
+                "searchInput"
+            ).value = "";
+
+
+            currentSearch = "";
+
+
+            showToast(
+                data.message ||
+                "All inventory records deleted successfully.",
+                "success"
+            );
+
+
+        } catch (error) {
+
+            showToast(
+                error.message ||
+                "Delete All failed.",
+                "error"
+            );
+
+        } finally {
+
+            showLoading(false);
+
+        }
+
+    }
+
+
+    /* =========================================================
+       EXCEL SELECT
+    ========================================================= */
+
+    function selectExcelFile() {
+
+        document
+            .getElementById(
+                "excelFile"
+            )
+            .click();
+
+    }
+
+
+    /* =========================================================
+       EXCEL UPLOAD
+    ========================================================= */
+
+    async function handleExcelUpload(
+        event
+    ) {
+
+        const file =
+            event.target.files[0];
+
+
+        if (!file) {
+
+            return;
+
+        }
+
+
+        const fileName =
+            file.name.toLowerCase();
+
+
+        const validExtension =
+            fileName.endsWith(".xlsx") ||
+            fileName.endsWith(".xls");
+
+
+        if (!validExtension) {
+
+            showToast(
+                "Only .xlsx and .xls Excel files are allowed.",
+                "error"
+            );
+
+
+            event.target.value =
+                "";
+
+
+            return;
+
+        }
+
+
+        const maxSize =
+            20 *
+            1024 *
+            1024;
+
+
+        if (
+            file.size >
+            maxSize
+        ) {
+
+            showToast(
+                "File size cannot exceed 20 MB.",
+                "error"
+            );
+
+
+            event.target.value =
+                "";
+
+
+            return;
+
+        }
+
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "file",
+            file
+        );
+
+
+        showLoading(
+            true,
+            "Uploading Excel and updating inventory..."
+        );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/upload-master",
+                    {
+                        method:
+                            "POST",
+
+                        body:
+                            formData
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.error ||
+                    "Excel upload failed."
+                );
+
+            }
+
+
+            document.getElementById(
+                "uploadTotal"
+            ).textContent =
+                data.total ??
+                0;
+
+
+            document.getElementById(
+                "uploadProcessed"
+            ).textContent =
+                data.rows_processed ??
+                0;
+
+
+            document.getElementById(
+                "uploadInserted"
+            ).textContent =
+                data.inserted ??
+                0;
+
+
+            document.getElementById(
+                "uploadUpdated"
+            ).textContent =
+                data.updated ??
+                0;
+
+
+            document.getElementById(
+                "uploadResult"
+            ).classList.add(
+                "show"
+            );
+
+
+            await loadMasterData(
+                currentSearch
+            );
+
+
+            showToast(
+                data.message ||
+                "Excel uploaded successfully.",
+                "success"
+            );
+
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            showToast(
+                error.message ||
+                "Excel upload failed.",
+                "error"
+            );
+
+
+        } finally {
+
+            event.target.value =
+                "";
+
+            showLoading(false);
+
+        }
+
+    }
+
+
+    /* =========================================================
+       PRINT SELECTED
+    ========================================================= */
+
+    async function printSelectedRecords() {
+
+        if (
+            selectedIds.size === 0
+        ) {
+
+            showToast(
+                "Please select at least one record to print.",
+                "warning"
+            );
+
+            return;
+
+        }
+
+
+        const ids =
+            Array.from(
+                selectedIds
+            );
+
+
+        showLoading(
+            true,
+            "Preparing selected inventory tags..."
+        );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `/api/master/bulk-selected?ids=${ids.join(",")}`
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.error ||
+                    "Unable to load selected records."
+                );
+
+            }
+
+
+            const records =
+                Array.isArray(data)
+                    ? data
+                    : (
+                        data.data ||
+                        []
+                    );
+
+
+            if (
+                !records.length
+            ) {
+
+                showToast(
+                    "No selected records were found.",
+                    "warning"
+                );
+
+                return;
+
+            }
+
+
+            openInventoryTagPrintWindow(
+                records,
+                "Selected Inventory Tags"
+            );
+
+
+        } catch (error) {
+
+            showToast(
+                error.message ||
+                "Print Selected failed.",
+                "error"
+            );
+
+        } finally {
+
+            showLoading(false);
+
+        }
+
+    }
+
+
+    /* =========================================================
+       PRINT ALL
+    ========================================================= */
+
+    async function printAllRecords() {
+
+        showLoading(
+            true,
+            "Preparing all inventory tags..."
+        );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/master/print-all"
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.error ||
+                    "Unable to load records for printing."
+                );
+
+            }
+
+
+            const records =
+                Array.isArray(data)
+                    ? data
+                    : (
+                        data.data ||
+                        []
+                    );
+
+
+            if (
+                !records.length
+            ) {
+
+                showToast(
+                    "No inventory records available to print.",
+                    "warning"
+                );
+
+                return;
+
+            }
+
+
+            openInventoryTagPrintWindow(
+                records,
+                "Inventory Tags"
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Print All Error:",
+                error
+            );
+
+
+            showToast(
+                error.message ||
+                "Print All failed.",
+                "error"
+            );
+
+
+        } finally {
+
+            showLoading(false);
+
+        }
+
+    }
+
+
+    /* =========================================================
+       PRINT SINGLE SLIP
+       ---------------------------------------------------------
+       Backend ID is ONLY used internally to fetch the row.
+       It is NEVER printed.
+    ========================================================= */
+
+    async function printSlip(
+        id
+    ) {
+
+        showLoading(
+            true,
+            "Preparing inventory tag..."
+        );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `/api/master/${id}`
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.error ||
+                    "Unable to load inventory record."
+                );
+
+            }
+
+
+            const record =
+                data.data ||
+                data;
+
+
+            openInventoryTagPrintWindow(
+                [record],
+                "Inventory Tag"
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Print Slip Error:",
+                error
+            );
+
+
+            showToast(
+                error.message ||
+                "Unable to print inventory tag.",
+                "error"
+            );
+
+
+        } finally {
+
+            showLoading(false);
+
+        }
+
+    }
+
+
+    /* =========================================================
+       INVENTORY TAG PRINT WINDOW
+    ========================================================= */
+
+    function openInventoryTagPrintWindow(
+        records,
+        title
+    ) {
+
+        const printWindow =
+            window.open(
+                "",
+                "_blank"
+            );
+
+
+        if (!printWindow) {
+
+            showToast(
+                "Print window was blocked by the browser. Please allow pop-ups for this site.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        const pages =
+            records
+                .map(
+                    record =>
+                        createInventoryTag(
+                            record
+                        )
+                )
+                .join("");
+
+
+        const printHtml = `
+
+            <!DOCTYPE html>
+
+            <html>
+
+            <head>
+
+                <meta charset="UTF-8">
+
+                <title>
+                    ${escapeHtml(title)}
+                </title>
+
+
+                <style>
+
+
+                    * {
+                        box-sizing: border-box;
+                    }
+
+
+                    html,
+                    body {
+
+                        margin: 0;
+
+                        padding: 0;
+
+                        background: #ffffff;
+
+                        font-family:
+                            Arial,
+                            Helvetica,
+                            sans-serif;
+
+                        color: #111111;
+                    }
+
+
+                    body {
+
+                        padding: 0;
+
+                    }
+
+
+                    .tag-page {
+
+                        width: 100%;
+
+                        min-height: 100vh;
+
+                        display: flex;
+
+                        align-items: center;
+
+                        justify-content: center;
+
+                        padding: 20px;
+
+                        page-break-after:
+                            always;
+                    }
+
+
+                    .tag-page:last-child {
+
+                        page-break-after:
+                            auto;
+                    }
+
+
+                    /*
+                     * Inventory Tag
+                     *
+                     * Only Master Excel fields are
+                     * automatically populated.
+                     */
+
+                    .inventory-tag {
+
+                        width: 100%;
+
+                        max-width: 720px;
+
+                        border:
+                            2px solid #111111;
+
+                        background: #ffffff;
+
+                    }
+
+
+                    .tag-heading {
+
+                        text-align: center;
+
+                        font-size: 24px;
+
+                        font-weight: 800;
+
+                        letter-spacing: 0.5px;
+
+                        padding:
+                            12px 15px;
+
+                        border-bottom:
+                            2px solid #111111;
+                    }
+
+
+                    .tag-grid {
+
+                        display: grid;
+
+                        grid-template-columns:
+                            180px 1fr;
+
+                    }
+
+
+                    .tag-label {
+
+                        font-size: 12px;
+
+                        font-weight: 800;
+
+                        padding:
+                            12px 14px;
+
+                        border-right:
+                            1px solid #111111;
+
+                        border-bottom:
+                            1px solid #111111;
+
+                        background:
+                            #f5f5f5;
+
+                        text-transform:
+                            uppercase;
+                    }
+
+
+                    .tag-value {
+
+                        font-size: 14px;
+
+                        font-weight: 600;
+
+                        min-height: 42px;
+
+                        padding:
+                            12px 14px;
+
+                        border-bottom:
+                            1px solid #111111;
+
+                        word-break:
+                            break-word;
+                    }
+
+
+                    .tag-value.blank {
+
+                        min-height: 42px;
+
+                    }
+
+
+                    .tag-grid > div:nth-last-child(-n + 2) {
+
+                        border-bottom:
+                            none;
+                    }
+
+
+                    .tag-footer {
+
+                        display: grid;
+
+                        grid-template-columns:
+                            repeat(2, 1fr);
+
+                        border-top:
+                            2px solid #111111;
+                    }
+
+
+                    .tag-footer-field {
+
+                        min-height: 55px;
+
+                        padding:
+                            10px 14px;
+
+                        border-right:
+                            1px solid #111111;
+                    }
+
+
+                    .tag-footer-field:last-child {
+
+                        border-right:
+                            none;
+                    }
+
+
+                    .tag-footer-label {
+
+                        font-size: 10px;
+
+                        font-weight: 800;
+
+                        text-transform:
+                            uppercase;
+
+                        margin-bottom: 8px;
+                    }
+
+
+                    .tag-footer-line {
+
+                        height: 20px;
+
+                        border-bottom:
+                            1px solid #111111;
+                    }
+
+
+                    @media print {
+
+
+                        @page {
+
+                            size: A4;
+
+                            margin: 10mm;
+                        }
+
+
+                        html,
+                        body {
+
+                            width: 100%;
+
+                            background:
+                                #ffffff;
+                        }
+
+
+                        .tag-page {
+
+                            min-height:
+                                calc(
+                                    297mm - 20mm
+                                );
+
+                            padding: 0;
+
+                            display: flex;
+
+                            align-items: center;
+
+                            justify-content: center;
+
+                            page-break-after:
+                                always;
+                        }
+
+
+                        .tag-page:last-child {
+
+                            page-break-after:
+                                auto;
+                        }
+
+
+                        .inventory-tag {
+
+                            max-width:
+                                180mm;
+
+                            box-shadow:
+                                none;
+                        }
+
+                    }
+
+
+                </style>
+
+            </head>
+
+
+            <body>
+
+                ${pages}
+
+
+                <script>
+
+                    window.onload =
+                        function() {
+
+                            setTimeout(
+                                function() {
+
+                                    window.print();
+
+                                },
+                                300
+                            );
+
+                        };
+
+                <\/script>
+
+            </body>
+
+            </html>
+
+        `;
+
+
+        printWindow.document.open();
+
+        printWindow.document.write(
+            printHtml
+        );
+
+        printWindow.document.close();
+
+    }
+
+
+    /* =========================================================
+       CREATE INVENTORY TAG
+       ---------------------------------------------------------
+       AUTO FROM MASTER:
+       - Serial Number
+       - Item Number
+       - Description
+       - Location
+       - UM
+
+       BLANK:
+       - Date
+       - Counted Quantity
+       - Counted By
+       - Audited Qty
+       - Audited By
+    ========================================================= */
+
+    function createInventoryTag(
+        record
+    ) {
+
+        return `
+
+            <section class="tag-page">
+
+
+                <div class="inventory-tag">
+
+
+                    <div class="tag-heading">
+                        Inventory Tag
+                    </div>
+
+
+                    <div class="tag-grid">
+
+
+                        <!-- SERIAL NUMBER -->
+
+                        <div class="tag-label">
+                            Serial Number
+                        </div>
+
+                        <div class="tag-value">
+
+                            ${escapeHtml(
+                                record.serial_number ||
+                                ""
+                            )}
+
+                        </div>
+
+
+                        <!-- ITEM NUMBER -->
+
+                        <div class="tag-label">
+                            Item Number
+                        </div>
+
+                        <div class="tag-value">
+
+                            ${escapeHtml(
+                                record.item_number ||
+                                ""
+                            )}
+
+                        </div>
+
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="tag-label">
+                            Description
+                        </div>
+
+                        <div class="tag-value">
+
+                            ${escapeHtml(
+                                record.description ||
+                                ""
+                            )}
+
+                        </div>
+
+
+                        <!-- LOCATION -->
+
+                        <div class="tag-label">
+                            Location
+                        </div>
+
+                        <div class="tag-value">
+
+                            ${escapeHtml(
+                                record.location ||
+                                ""
+                            )}
+
+                        </div>
+
+
+                        <!-- UM -->
+
+                        <div class="tag-label">
+                            UM
+                        </div>
+
+                        <div class="tag-value">
+
+                            ${escapeHtml(
+                                record.um ||
+                                ""
+                            )}
+
+                        </div>
+
+
+                        <!-- DATE -->
+
+                        <div class="tag-label">
+                            Date
+                        </div>
+
+                        <div class="tag-value blank">
+                        </div>
+
+
+                        <!-- COUNTED QUANTITY -->
+
+                        <div class="tag-label">
+                            Counted Quantity
+                        </div>
+
+                        <div class="tag-value blank">
+                        </div>
+
+
+                        <!-- COUNTED BY -->
+
+                        <div class="tag-label">
+                            Counted By
+                        </div>
+
+                        <div class="tag-value blank">
+                        </div>
+
+
+                        <!-- AUDITED QTY -->
+
+                        <div class="tag-label">
+                            Audited Qty
+                        </div>
+
+                        <div class="tag-value blank">
+                        </div>
+
+
+                        <!-- AUDITED BY -->
+
+                        <div class="tag-label">
+                            Audited By
+                        </div>
+
+                        <div class="tag-value blank">
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="tag-footer">
+
+
+                        <div class="tag-footer-field">
+
+                            <div class="tag-footer-label">
+                                Counted By Signature
+                            </div>
+
+                            <div class="tag-footer-line">
+                            </div>
+
+                        </div>
+
+
+                        <div class="tag-footer-field">
+
+                            <div class="tag-footer-label">
+                                Audited By Signature
+                            </div>
+
+                            <div class="tag-footer-line">
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+        `;
+
+    }
+
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    function showToast(
+        message,
+        type = ""
+    ) {
+
+        const container =
+            document.getElementById(
+                "toastContainer"
+            );
+
+
+        const toast =
+            document.createElement(
+                "div"
+            );
+
+
+        toast.className =
+            `toast ${type}`;
+
+
+        toast.textContent =
+            message;
+
+
+        container.appendChild(
+            toast
+        );
+
+
+        setTimeout(
+            () => {
+
+                toast.style.opacity =
+                    "0";
+
+
+                toast.style.transform =
+                    "translateY(8px)";
+
+
+                setTimeout(
+                    () =>
+                        toast.remove(),
+                    200
+                );
+
+
+            },
+            3500
+        );
+
+    }
+
+
+    /* =========================================================
+       LOADING
+    ========================================================= */
+
+    function showLoading(
+        show,
+        message = "Please wait..."
+    ) {
+
+        const overlay =
+            document.getElementById(
+                "loadingOverlay"
+            );
+
+
+        document.getElementById(
+            "loadingText"
+        ).textContent =
+            message;
+
+
+        if (show) {
+
+            overlay.classList.add(
+                "show"
+            );
+
+        } else {
+
+            overlay.classList.remove(
+                "show"
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       HTML ESCAPE
+    ========================================================= */
+
+    function escapeHtml(
+        value
+    ) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+
+            return "";
+
+        }
+
+
+        return String(value)
+
+            .replaceAll(
+                "&",
+                "&amp;"
+            )
+
+            .replaceAll(
+                "<",
+                "&lt;"
+            )
+
+            .replaceAll(
+                ">",
+                "&gt;"
+            )
+
+            .replaceAll(
+                '"',
+                "&quot;"
+            )
+
+            .replaceAll(
+                "'",
+                "&#039;"
+            );
+
+    }
+
+
+    /* =========================================================
+       MODAL CLICK OUTSIDE
+    ========================================================= */
+
+    document
+        .getElementById(
+            "detailsModal"
+        )
+        .addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target ===
+                    this
+                ) {
+
+                    closeDetailsModal();
+
+                }
+
+            }
+        );
+
+
+    /* =========================================================
+       ESC KEY
+    ========================================================= */
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                closeDetailsModal();
+
+            }
+
+        }
+    );
+
+
+</script>
+
+</body>
+
+</html>
+```
