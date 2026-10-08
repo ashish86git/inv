@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -1461,10 +1460,6 @@
 <main class="page">
 
 
-    <!-- =========================================================
-         SUMMARY
-    ========================================================== -->
-
     <section class="summary-grid">
 
 
@@ -1554,10 +1549,6 @@
 
 
 
-    <!-- =========================================================
-         MASTER EXCEL UPLOAD
-    ========================================================== -->
-
     <section class="upload-card">
 
         <div class="upload-row">
@@ -1589,16 +1580,13 @@
 
                     <div class="result-grid">
 
-
                         <div class="result-item">
 
                             <span>
                                 Total
                             </span>
 
-                            <strong
-                                id="uploadTotal"
-                            >
+                            <strong id="uploadTotal">
                                 0
                             </strong>
 
@@ -1611,9 +1599,7 @@
                                 Processed
                             </span>
 
-                            <strong
-                                id="uploadProcessed"
-                            >
+                            <strong id="uploadProcessed">
                                 0
                             </strong>
 
@@ -1626,9 +1612,7 @@
                                 Inserted
                             </span>
 
-                            <strong
-                                id="uploadInserted"
-                            >
+                            <strong id="uploadInserted">
                                 0
                             </strong>
 
@@ -1641,14 +1625,11 @@
                                 Updated
                             </span>
 
-                            <strong
-                                id="uploadUpdated"
-                            >
+                            <strong id="uploadUpdated">
                                 0
                             </strong>
 
                         </div>
-
 
                     </div>
 
@@ -1658,7 +1639,6 @@
 
 
             <div class="upload-actions">
-
 
                 <input
                     type="file"
@@ -1686,7 +1666,6 @@
                     ↻ Refresh
                 </button>
 
-
             </div>
 
         </div>
@@ -1695,17 +1674,10 @@
 
 
 
-    <!-- =========================================================
-         TABLE
-    ========================================================== -->
-
     <section class="table-card">
 
 
-        <!-- SECTION HEADER -->
-
         <div class="section-header">
-
 
             <div class="section-title">
 
@@ -1721,7 +1693,6 @@
 
 
             <div class="section-actions">
-
 
                 <button
                     type="button"
@@ -1742,17 +1713,13 @@
                     🗑️ Delete All
                 </button>
 
-
             </div>
 
         </div>
 
 
 
-        <!-- SEARCH -->
-
         <div class="search-bar">
-
 
             <div class="search-wrapper">
 
@@ -1798,12 +1765,9 @@
                 🖨️ Print Selected
             </button>
 
-
         </div>
 
 
-
-        <!-- TABLE -->
 
         <div class="table-wrapper">
 
@@ -1812,7 +1776,6 @@
                 <thead>
 
                     <tr>
-
 
                         <th class="checkbox-cell">
 
@@ -1824,55 +1787,44 @@
 
                         </th>
 
-
                         <th>
                             Serial Number
                         </th>
-
 
                         <th>
                             Item Number
                         </th>
 
-
                         <th>
                             Description
                         </th>
-
 
                         <th>
                             Location
                         </th>
 
-
                         <th>
                             UM
                         </th>
-
 
                         <th>
                             Created At
                         </th>
 
-
                         <th>
                             Updated At
                         </th>
 
-
                         <th>
                             Actions
                         </th>
-
 
                     </tr>
 
                 </thead>
 
 
-                <tbody
-                    id="tableBody"
-                >
+                <tbody id="tableBody">
                 </tbody>
 
             </table>
@@ -1880,8 +1832,6 @@
         </div>
 
 
-
-        <!-- EMPTY STATE -->
 
         <div
             id="emptyState"
@@ -1904,10 +1854,7 @@
 
 
 
-        <!-- PAGINATION -->
-
         <div class="pagination">
-
 
             <div
                 class="pagination-info"
@@ -1918,7 +1865,6 @@
 
 
             <div class="pagination-controls">
-
 
                 <select
                     id="pageSize"
@@ -1975,7 +1921,6 @@
                     Next →
                 </button>
 
-
             </div>
 
         </div>
@@ -1997,7 +1942,6 @@
 >
 
     <div class="modal">
-
 
         <div class="modal-header">
 
@@ -2021,7 +1965,6 @@
             id="detailsBody"
         >
         </div>
-
 
     </div>
 
@@ -2122,7 +2065,6 @@
                     "change",
                     handleExcelUpload
                 );
-
 
         }
     );
@@ -2584,7 +2526,7 @@
                                 <button
                                     type="button"
                                     class="icon-btn print"
-                                    title="Print Slip"
+                                    title="Print Tag"
                                     onclick="
                                         printSlip(
                                             ${record.id}
@@ -3781,10 +3723,10 @@
 
 
     /* =========================================================
-       PRINT SINGLE SLIP
+       PRINT SINGLE TAG
        ---------------------------------------------------------
-       Backend ID is ONLY used internally to fetch the row.
-       It is NEVER printed.
+       Backend ID is only used to fetch the record.
+       It is NOT printed.
     ========================================================= */
 
     async function printSlip(
@@ -3833,7 +3775,7 @@
         } catch (error) {
 
             console.error(
-                "Print Slip Error:",
+                "Print Tag Error:",
                 error
             );
 
@@ -3856,6 +3798,9 @@
 
     /* =========================================================
        INVENTORY TAG PRINT WINDOW
+       ---------------------------------------------------------
+       THIS SECTION IS DESIGNED TO MATCH THE UPLOADED
+       OTIS INVENTORY TAG IMAGE.
     ========================================================= */
 
     function openInventoryTagPrintWindow(
@@ -3910,6 +3855,11 @@
 
                 <style>
 
+                    /*
+                     =====================================================
+                     OTIS INVENTORY TAG PRINT DESIGN
+                     =====================================================
+                    */
 
                     * {
                         box-sizing: border-box;
@@ -3930,7 +3880,7 @@
                             Helvetica,
                             sans-serif;
 
-                        color: #111111;
+                        color: #242424;
                     }
 
 
@@ -3940,6 +3890,12 @@
 
                     }
 
+
+                    /*
+                     -----------------------------------------------------
+                     EACH PRINT PAGE
+                     -----------------------------------------------------
+                    */
 
                     .tag-page {
 
@@ -3953,7 +3909,7 @@
 
                         justify-content: center;
 
-                        padding: 20px;
+                        padding: 18px;
 
                         page-break-after:
                             always;
@@ -3968,171 +3924,441 @@
 
 
                     /*
-                     * Inventory Tag
-                     *
-                     * Only Master Excel fields are
-                     * automatically populated.
-                     */
+                     -----------------------------------------------------
+                     MAIN TAG
+                     -----------------------------------------------------
+                    */
 
                     .inventory-tag {
 
                         width: 100%;
 
-                        max-width: 720px;
+                        max-width: 1000px;
+
+                        background:
+                            #f1e8bd;
 
                         border:
                             2px solid #111111;
 
-                        background: #ffffff;
+                        color: #222222;
+
+                        box-shadow:
+                            0 1px 2px
+                            rgba(
+                                0,
+                                0,
+                                0,
+                                0.12
+                            );
 
                     }
 
 
-                    .tag-heading {
+                    /*
+                     -----------------------------------------------------
+                     TOP HEADER
+                     -----------------------------------------------------
+                    */
 
-                        text-align: center;
+                    .tag-header {
 
-                        font-size: 24px;
-
-                        font-weight: 800;
-
-                        letter-spacing: 0.5px;
-
-                        padding:
-                            12px 15px;
-
-                        border-bottom:
-                            2px solid #111111;
-                    }
-
-
-                    .tag-grid {
+                        min-height: 82px;
 
                         display: grid;
 
                         grid-template-columns:
-                            180px 1fr;
+                            1fr 245px;
+
+                        border-bottom:
+                            2px solid #111111;
+
+                        background:
+                            #eee5b9;
+                    }
+
+
+                    .tag-header-title {
+
+                        display: flex;
+
+                        align-items: center;
+
+                        justify-content: center;
+
+                        text-align: center;
+
+                        padding:
+                            10px 15px;
+
+                        border-right:
+                            2px solid #111111;
 
                     }
 
 
-                    .tag-label {
+                    .tag-main-title {
 
-                        font-size: 12px;
+                        font-size: 24px;
 
-                        font-weight: 800;
+                        line-height: 1.15;
 
-                        padding:
-                            12px 14px;
+                        font-weight: 900;
 
-                        border-right:
-                            1px solid #111111;
-
-                        border-bottom:
-                            1px solid #111111;
-
-                        background:
-                            #f5f5f5;
+                        letter-spacing:
+                            0.4px;
 
                         text-transform:
                             uppercase;
                     }
 
 
-                    .tag-value {
+                    .tag-sub-title {
 
-                        font-size: 14px;
+                        margin-top: 4px;
 
-                        font-weight: 600;
+                        font-size: 20px;
 
-                        min-height: 42px;
+                        line-height: 1;
 
-                        padding:
-                            12px 14px;
+                        font-weight: 900;
+
+                        text-transform:
+                            uppercase;
+                    }
+
+
+                    /*
+                     -----------------------------------------------------
+                     S.NO.
+                     -----------------------------------------------------
+                    */
+
+                    .tag-sno {
+
+                        display: grid;
+
+                        grid-template-columns:
+                            105px 1fr;
+
+                        align-items: stretch;
+
+                    }
+
+
+                    .tag-sno-label {
+
+                        display: flex;
+
+                        align-items: center;
+
+                        justify-content: center;
+
+                        font-size: 18px;
+
+                        font-weight: 900;
+
+                        border-right:
+                            1px solid #111111;
+                    }
+
+
+                    .tag-sno-value {
+
+                        display: flex;
+
+                        align-items: center;
+
+                        justify-content: center;
+
+                        color: #b02020;
+
+                        font-size: 25px;
+
+                        font-weight: 800;
+
+                        letter-spacing:
+                            1px;
+                    }
+
+
+                    /*
+                     -----------------------------------------------------
+                     FIELD ROW
+                     -----------------------------------------------------
+                    */
+
+                    .tag-row {
+
+                        display: grid;
 
                         border-bottom:
                             1px solid #111111;
+                    }
+
+
+                    .tag-row-two {
+
+                        grid-template-columns:
+                            1fr 1fr;
+                    }
+
+
+                    .tag-row-full {
+
+                        grid-template-columns:
+                            1fr;
+                    }
+
+
+                    .tag-field {
+
+                        display: grid;
+
+                        grid-template-columns:
+                            185px 1fr;
+
+                        min-height: 58px;
+
+                    }
+
+
+                    .tag-field + .tag-field {
+
+                        border-left:
+                            1px solid #111111;
+                    }
+
+
+                    .tag-label {
+
+                        display: flex;
+
+                        align-items: center;
+
+                        padding:
+                            10px 12px;
+
+                        border-right:
+                            1px solid #111111;
+
+                        font-size: 16px;
+
+                        font-weight: 900;
+
+                        text-transform:
+                            uppercase;
+
+                    }
+
+
+                    .tag-value {
+
+                        display: flex;
+
+                        align-items: center;
+
+                        padding:
+                            10px 13px;
+
+                        min-height: 58px;
+
+                        font-size: 16px;
+
+                        font-weight: 700;
+
+                        color: #202020;
 
                         word-break:
                             break-word;
                     }
 
 
-                    .tag-value.blank {
+                    /*
+                     -----------------------------------------------------
+                     ITEM NUMBER
+                     -----------------------------------------------------
+                    */
 
-                        min-height: 42px;
+                    .item-number-row {
+
+                        grid-template-columns:
+                            185px 1fr;
+
+                        min-height: 72px;
+                    }
+
+
+                    .item-number-row
+                    .tag-label {
+
+                        min-height: 72px;
 
                     }
 
 
-                    .tag-grid > div:nth-last-child(-n + 2) {
+                    .item-number-row
+                    .tag-value {
 
-                        border-bottom:
-                            none;
+                        min-height: 72px;
+
+                        font-size: 20px;
+
+                        font-weight: 800;
+
                     }
 
 
-                    .tag-footer {
+                    /*
+                     -----------------------------------------------------
+                     DESCRIPTION
+                     -----------------------------------------------------
+                    */
+
+                    .description-row {
+
+                        grid-template-columns:
+                            185px 1fr;
+
+                        min-height: 78px;
+                    }
+
+
+                    .description-row
+                    .tag-label {
+
+                        min-height: 78px;
+
+                    }
+
+
+                    .description-row
+                    .tag-value {
+
+                        min-height: 78px;
+
+                        align-items:
+                            flex-start;
+
+                        padding-top:
+                            14px;
+
+                        font-size: 17px;
+
+                    }
+
+
+                    /*
+                     -----------------------------------------------------
+                     COUNT / UOM
+                     -----------------------------------------------------
+                    */
+
+                    .count-row {
 
                         display: grid;
 
                         grid-template-columns:
-                            repeat(2, 1fr);
-
-                        border-top:
-                            2px solid #111111;
-                    }
-
-
-                    .tag-footer-field {
-
-                        min-height: 55px;
-
-                        padding:
-                            10px 14px;
-
-                        border-right:
-                            1px solid #111111;
-                    }
-
-
-                    .tag-footer-field:last-child {
-
-                        border-right:
-                            none;
-                    }
-
-
-                    .tag-footer-label {
-
-                        font-size: 10px;
-
-                        font-weight: 800;
-
-                        text-transform:
-                            uppercase;
-
-                        margin-bottom: 8px;
-                    }
-
-
-                    .tag-footer-line {
-
-                        height: 20px;
+                            1fr 1fr;
 
                         border-bottom:
                             1px solid #111111;
                     }
 
 
-                    @media print {
+                    /*
+                     -----------------------------------------------------
+                     FOOTER AUDIT AREA
+                     -----------------------------------------------------
+                    */
 
+                    .audit-row {
+
+                        display: grid;
+
+                        grid-template-columns:
+                            1fr 1fr 1fr;
+
+                    }
+
+
+                    .audit-field {
+
+                        min-height: 70px;
+
+                        display: grid;
+
+                        grid-template-columns:
+                            145px 1fr;
+
+                    }
+
+
+                    .audit-field:not(:last-child) {
+
+                        border-right:
+                            1px solid #111111;
+                    }
+
+
+                    .audit-label {
+
+                        display: flex;
+
+                        align-items: center;
+
+                        padding:
+                            8px 10px;
+
+                        border-right:
+                            1px solid #111111;
+
+                        font-size: 13px;
+
+                        font-weight: 900;
+
+                        text-transform:
+                            uppercase;
+                    }
+
+
+                    .audit-value {
+
+                        min-height: 70px;
+
+                        padding:
+                            8px;
+
+                    }
+
+
+                    /*
+                     -----------------------------------------------------
+                     EMPTY WRITING AREA
+                     -----------------------------------------------------
+                    */
+
+                    .blank-value {
+
+                        color:
+                            transparent;
+
+                    }
+
+
+                    /*
+                     -----------------------------------------------------
+                     PRINT SETTINGS
+                     -----------------------------------------------------
+                    */
+
+                    @media print {
 
                         @page {
 
-                            size: A4;
+                            size: A4 landscape;
 
-                            margin: 10mm;
+                            margin: 8mm;
                         }
 
 
@@ -4143,14 +4369,22 @@
 
                             background:
                                 #ffffff;
+
+                            -webkit-print-color-adjust:
+                                exact;
+
+                            print-color-adjust:
+                                exact;
                         }
 
 
                         .tag-page {
 
+                            width: 100%;
+
                             min-height:
                                 calc(
-                                    297mm - 20mm
+                                    210mm - 16mm
                                 );
 
                             padding: 0;
@@ -4175,15 +4409,97 @@
 
                         .inventory-tag {
 
+                            width: 100%;
+
                             max-width:
-                                180mm;
+                                none;
+
+                            background:
+                                #f1e8bd;
 
                             box-shadow:
                                 none;
+
+                            -webkit-print-color-adjust:
+                                exact;
+
+                            print-color-adjust:
+                                exact;
+                        }
+
+
+                        .tag-header {
+
+                            min-height:
+                                25mm;
+                        }
+
+
+                        .tag-main-title {
+
+                            font-size:
+                                21pt;
+                        }
+
+
+                        .tag-sub-title {
+
+                            font-size:
+                                16pt;
+                        }
+
+
+                        .tag-sno-label {
+
+                            font-size:
+                                12pt;
+                        }
+
+
+                        .tag-sno-value {
+
+                            font-size:
+                                17pt;
+                        }
+
+
+                        .tag-label {
+
+                            font-size:
+                                10pt;
+                        }
+
+
+                        .tag-value {
+
+                            font-size:
+                                10.5pt;
+                        }
+
+
+                        .item-number-row
+                        .tag-value {
+
+                            font-size:
+                                13pt;
+                        }
+
+
+                        .description-row
+                        .tag-value {
+
+                            font-size:
+                                11pt;
+                        }
+
+
+                        .audit-label {
+
+                            font-size:
+                                8.5pt;
                         }
 
                     }
-
 
                 </style>
 
@@ -4232,16 +4548,16 @@
 
 
     /* =========================================================
-       CREATE INVENTORY TAG
+       CREATE OTIS INVENTORY TAG
        ---------------------------------------------------------
-       AUTO FROM MASTER:
-       - Serial Number
+       EXCEL / MASTER DATA:
+       - Serial Number -> S.NO.
        - Item Number
        - Description
        - Location
        - UM
 
-       BLANK:
+       BLANK FOR MANUAL PHYSICAL COUNT:
        - Date
        - Counted Quantity
        - Counted By
@@ -4261,35 +4577,105 @@
                 <div class="inventory-tag">
 
 
-                    <div class="tag-heading">
-                        Inventory Tag
+                    <!-- =================================================
+                         HEADER
+                    ================================================== -->
+
+                    <div class="tag-header">
+
+
+                        <div class="tag-header-title">
+
+                            <div>
+
+                                <div class="tag-main-title">
+                                    OTIS NSC INVENTORY COUNT NOV 2024
+                                </div>
+
+                                <div class="tag-sub-title">
+                                    INVENTORY TAG
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="tag-sno">
+
+                            <div class="tag-sno-label">
+                                S.NO.:
+                            </div>
+
+                            <div class="tag-sno-value">
+
+                                ${escapeHtml(
+                                    record.serial_number ||
+                                    ""
+                                )}
+
+                            </div>
+
+                        </div>
+
+
                     </div>
 
 
-                    <div class="tag-grid">
+
+                    <!-- =================================================
+                         DATE + LOCATION
+                    ================================================== -->
+
+                    <div class="tag-row tag-row-two">
 
 
-                        <!-- SERIAL NUMBER -->
+                        <div class="tag-field">
+
+                            <div class="tag-label">
+                                DATE:
+                            </div>
+
+                            <div class="tag-value blank-value">
+                                &nbsp;
+                            </div>
+
+                        </div>
+
+
+                        <div class="tag-field">
+
+                            <div class="tag-label">
+                                LOCATION:
+                            </div>
+
+                            <div class="tag-value">
+
+                                ${escapeHtml(
+                                    record.location ||
+                                    ""
+                                )}
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         ITEM NUMBER
+                    ================================================== -->
+
+                    <div class="tag-row item-number-row">
+
 
                         <div class="tag-label">
-                            Serial Number
+                            ITEM NUMBER:
                         </div>
 
-                        <div class="tag-value">
-
-                            ${escapeHtml(
-                                record.serial_number ||
-                                ""
-                            )}
-
-                        </div>
-
-
-                        <!-- ITEM NUMBER -->
-
-                        <div class="tag-label">
-                            Item Number
-                        </div>
 
                         <div class="tag-value">
 
@@ -4301,11 +4687,63 @@
                         </div>
 
 
-                        <!-- DESCRIPTION -->
+                    </div>
+
+
+
+                    <!-- =================================================
+                         COUNTED QUANTITY + UOM
+                    ================================================== -->
+
+                    <div class="count-row">
+
+
+                        <div class="tag-field">
+
+                            <div class="tag-label">
+                                COUNTED QUANTITY:
+                            </div>
+
+                            <div class="tag-value blank-value">
+                                &nbsp;
+                            </div>
+
+                        </div>
+
+
+                        <div class="tag-field">
+
+                            <div class="tag-label">
+                                UOM:
+                            </div>
+
+                            <div class="tag-value">
+
+                                ${escapeHtml(
+                                    record.um ||
+                                    ""
+                                )}
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         DESCRIPTION
+                    ================================================== -->
+
+                    <div class="tag-row description-row">
+
 
                         <div class="tag-label">
-                            Description
+                            DESCRIPTION:
                         </div>
+
 
                         <div class="tag-value">
 
@@ -4317,114 +4755,58 @@
                         </div>
 
 
-                        <!-- LOCATION -->
-
-                        <div class="tag-label">
-                            Location
-                        </div>
-
-                        <div class="tag-value">
-
-                            ${escapeHtml(
-                                record.location ||
-                                ""
-                            )}
-
-                        </div>
-
-
-                        <!-- UM -->
-
-                        <div class="tag-label">
-                            UM
-                        </div>
-
-                        <div class="tag-value">
-
-                            ${escapeHtml(
-                                record.um ||
-                                ""
-                            )}
-
-                        </div>
-
-
-                        <!-- DATE -->
-
-                        <div class="tag-label">
-                            Date
-                        </div>
-
-                        <div class="tag-value blank">
-                        </div>
-
-
-                        <!-- COUNTED QUANTITY -->
-
-                        <div class="tag-label">
-                            Counted Quantity
-                        </div>
-
-                        <div class="tag-value blank">
-                        </div>
-
-
-                        <!-- COUNTED BY -->
-
-                        <div class="tag-label">
-                            Counted By
-                        </div>
-
-                        <div class="tag-value blank">
-                        </div>
-
-
-                        <!-- AUDITED QTY -->
-
-                        <div class="tag-label">
-                            Audited Qty
-                        </div>
-
-                        <div class="tag-value blank">
-                        </div>
-
-
-                        <!-- AUDITED BY -->
-
-                        <div class="tag-label">
-                            Audited By
-                        </div>
-
-                        <div class="tag-value blank">
-                        </div>
-
-
                     </div>
 
 
-                    <div class="tag-footer">
+
+                    <!-- =================================================
+                         COUNTED BY / AUDITED QTY / AUDITED BY
+                    ================================================== -->
+
+                    <div class="audit-row">
 
 
-                        <div class="tag-footer-field">
+                        <div class="audit-field">
 
-                            <div class="tag-footer-label">
-                                Counted By Signature
+
+                            <div class="audit-label">
+                                COUNTED BY:
                             </div>
 
-                            <div class="tag-footer-line">
+
+                            <div class="audit-value">
                             </div>
+
 
                         </div>
 
 
-                        <div class="tag-footer-field">
+                        <div class="audit-field">
 
-                            <div class="tag-footer-label">
-                                Audited By Signature
+
+                            <div class="audit-label">
+                                AUDITED QTY:
                             </div>
 
-                            <div class="tag-footer-line">
+
+                            <div class="audit-value">
                             </div>
+
+
+                        </div>
+
+
+                        <div class="audit-field">
+
+
+                            <div class="audit-label">
+                                AUDITED BY:
+                            </div>
+
+
+                            <div class="audit-value">
+                            </div>
+
 
                         </div>
 
@@ -4637,4 +5019,3 @@
 </body>
 
 </html>
-```
